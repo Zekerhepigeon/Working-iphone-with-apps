@@ -37,9 +37,9 @@ Live camera view using device camera (via browser API)
 Photo capture & preview
 
 Front/rear toggle and flash icon mockup
-
-git clone https://github.com/Zekerthepigeon/iphone12-ui-clone.git
-cd iphone12-ui-clone
-# If needed:
-npm install
-npm start
+commands if you want to clone it
+//git clone https://github.com/Zekerthepigeon/iphone12-ui-clone.git
+//cd iphone12-ui-clone
+//# If needed:
+//npm install
+//npm start
