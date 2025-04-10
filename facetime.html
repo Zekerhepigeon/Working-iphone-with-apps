@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>FaceTime</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <style>
+        :root {
+            --green: #30D158;
+            --red: #FF3B30;
+            --gray: #8E8E93;
+        }
+        body {
+            background-color: #000;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(to bottom, #000, transparent);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+        .back-button {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .contacts-list {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow-y: auto;
+            background-color: #000;
+        }
+        .contact {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+        }
+        .contact-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #5E3A8E, #2D1B4E);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            font-size: 20px;
+            color: white;
+        }
+        .contact-name {
+            flex: 1;
+            font-size: 18px;
+        }
+        .call-icon {
+            color: var(--green);
+            font-size: 24px;
+        }
+        .calling-screen {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+        .video-feed {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+        }
+        .caller-info {
+            position: absolute;
+            top: 80px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 10;
+        }
+        .caller-name {
+            font-size: 28px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+        .call-status {
+            color: white;
+            font-size: 18px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+        .self-view {
+            position: absolute;
+            bottom: 180px;
+            right: 20px;
+            width: 100px;
+            height: 150px;
+            background: url('https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80') center/cover;
+            border-radius: 8px;
+            border: 2px solid white;
+            z-index: 10;
+        }
+        .call-controls {
+            position: fixed;
+            bottom: 40px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            z-index: 100;
+        }
+        .control-button {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 12px;
+            background-color: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+        }
+        .control-button ion-icon {
+            font-size: 30px;
+            margin-bottom: 5px;
+        }
+        .end-call {
+            background-color: var(--red);
+        }
+        .mute {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .flip {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .speaker {
+            background-color: rgba(255,255,255,0.2);
+        }
+        .effects {
+            background-color: rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="home.html" class="back-button">‹</a>
+        <div class="contact-name">FaceTime</div>
+        <div style="width: 24px;"></div>
+    </div>
+
+    <div class="contacts-list">
+        <div class="contact" onclick="startCall('John Appleseed')">
+            <div class="contact-avatar">J</div>
+            <div class="contact-name">John Appleseed</div>
+            <ion-icon name="videocam" class="call-icon"></ion-icon>
+        </div>
+        <div class="contact" onclick="startCall('Sarah Smith')">
+            <div class="contact-avatar">S</div>
+            <div class="contact-name">Sarah Smith</div>
+            <ion-icon name="videocam" class="call-icon"></ion-icon>
+        </div>
+        <div class="contact" onclick="startCall('Michael Brown')">
+            <div class="contact-avatar">M</div>
+            <div class="contact-name">Michael Brown</div>
+            <ion-icon name="videocam" class="call-icon"></ion-icon>
+        </div>
+    </div>
+
+    <div class="calling-screen" id="callingScreen">
+        <div class="video-feed"></div>
+        <div class="self-view"></div>
+        <div class="caller-info">
+            <div class="caller-name" id="callerName"></div>
+            <div class="call-status" id="callStatus">Calling...</div>
+        </div>
+        <div class="call-controls">
+            <div class="control-button mute" onclick="toggleMute()">
+                <ion-icon name="mic-off"></ion-icon>
+                <span>Mute</span>
+            </div>
+            <div class="control-button flip" onclick="flipCamera()">
+                <ion-icon name="camera-reverse"></ion-icon>
+                <span>Flip</span>
+            </div>
+            <div class="control-button end-call" onclick="endCall()">
+                <ion-icon name="call"></ion-icon>
+                <span>End</span>
+            </div>
+            <div class="control-button speaker" onclick="toggleSpeaker()">
+                <ion-icon name="volume-high"></ion-icon>
+                <span>Speaker</span>
+            </div>
+            <div class="control-button effects" onclick="showEffects()">
+                <ion-icon name="sparkles"></ion-icon>
+                <span>Effects</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isMuted = false;
+        let isSpeakerOn = false;
+        let isFrontCamera = true;
+
+        function startCall(name) {
+            document.querySelector('.contacts-list').style.display = 'none';
+            document.getElementById('callingScreen').style.display = 'block';
+            document.getElementById('callerName').textContent = name;
+            
+            // Simulate call progress
+            setTimeout(() => {
+                document.getElementById('callStatus').textContent = 'Connecting...';
+                document.querySelector('.video-feed').style.opacity = '0.7';
+            }, 1000);
+            setTimeout(() => {
+                document.getElementById('callStatus').textContent = 'Connected';
+                document.querySelector('.video-feed').style.opacity = '1';
+            }, 3000);
+        }
+
+        function endCall() {
+            document.querySelector('.contacts-list').style.display = 'block';
+            document.getElementById('callingScreen').style.display = 'none';
+            document.getElementById('callStatus').textContent = 'Calling...';
+            document.querySelector('.video-feed').style.opacity = '0.7';
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            const button = document.querySelector('.mute');
+            button.style.backgroundColor = isMuted ? 'white' : 'rgba(255,255,255,0.2)';
+            button.querySelector('ion-icon').name = isMuted ? 'mic' : 'mic-off';
+            button.querySelector('ion-icon').style.color = isMuted ? 'black' : 'white';
+        }
+
+        function flipCamera() {
+            isFrontCamera = !isFrontCamera;
+            const button = document.querySelector('.flip');
+            button.style.backgroundColor = isFrontCamera ? 'white' : 'rgba(255,255,255,0.2)';
+            button.querySelector('ion-icon').style.color = isFrontCamera ? 'black' : 'white';
+        }
+
+        function toggleSpeaker() {
+            isSpeakerOn = !isSpeakerOn;
+            const button = document.querySelector('.speaker');
+            button.style.backgroundColor = isSpeakerOn ? 'white' : 'rgba(255,255,255,0.2)';
+            button.querySelector('ion-icon').style.color = isSpeakerOn ? 'black' : 'white';
+        }
+
+        function showEffects() {
+            alert('FaceTime effects would appear here');
+        }
+    </script>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
