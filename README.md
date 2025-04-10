@@ -38,7 +38,7 @@ Photo capture & preview
 
 Front/rear toggle and flash icon mockup
 commands if you want to clone it
-//git clone https://github.com/Zekerthepigeon/iphone12-ui-clone.git
+//git clone https://github.com/Zekerhepigeon/iphone12-ui-clone.git
 //cd iphone12-ui-clone
 //# If needed:
 //npm install
