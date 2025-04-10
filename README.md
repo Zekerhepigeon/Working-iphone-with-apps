@@ -7,6 +7,7 @@ Custom time & date display
 Slide-to-unlock animation
 
 Notification preview support
+![image](https://github.com/user-attachments/assets/9cac7e14-8270-48e6-b479-049675fffc96)
 
 🔢 Password Screen
 4 or 6-digit PIN entry
@@ -21,6 +22,7 @@ Interactive app grid layout
 App opening/closing with transitions
 
 Folder and icon organization (if applicable)
+![image](https://github.com/user-attachments/assets/74e7327b-ecde-4083-96e9-a70eb0e8aab6)
 
 📱 App System
 Launchable mock apps
@@ -36,3 +38,8 @@ Photo capture & preview
 
 Front/rear toggle and flash icon mockup
 
+git clone https://github.com/Zekerthepigeon/iphone12-ui-clone.git
+cd iphone12-ui-clone
+# If needed:
+npm install
+npm start
